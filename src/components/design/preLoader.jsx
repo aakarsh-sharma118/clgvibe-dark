@@ -35,7 +35,7 @@ const Preloader = ({ children, isLoading }) => {
   return (
     <>
       {isLoading ? (
-        <div className="loading-page absolute top-0 left-0 h-full w-full flex flex-col items-center justify-center gap-6 bg-gradient-to-r from-[#0F0C17] via-[#310E4A] to-[#3A1735] text-[#191654]">
+        <div className="loading-page absolute top-0 left-0 h-full w-full flex flex-col items-center justify-center gap-6 bg-background-gradient">
           <svg
             id="svg"
             xmlns="http://www.w3.org/2000/svg"
