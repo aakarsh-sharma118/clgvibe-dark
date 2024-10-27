@@ -1,0 +1,18 @@
+// Animation for Pre-loader
+.loading-page {
+  #svg {
+    stroke-width: 8px;
+    stroke-dasharray: 4500;
+    animation: draw 8s ease;
+
+    @keyframes draw {
+      0% {
+        stroke-dashoffset: 4500;
+      }
+
+      100% {
+        stroke-dashoffset: 0;
+      }
+    }
+  }
+}
