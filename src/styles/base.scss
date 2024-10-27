@@ -1,0 +1,44 @@
+// Important: Default background colour
+// background: linear-gradient(to right, #0F0C17, #310E4A, #3A1735, #0F0C17);
+
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 12px;
+  /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  /* Background of the scrollbar track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: radial-gradient(circle, #4a0c77, #6a175e);
+  /* Scrollbar color */
+  border-radius: 10px;
+  /* Round the edges */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: radial-gradient(circle, #4a0c77, #6a175e);
+  /* Hover effect */
+}
+
+// Animation for Pre-loader
+.loading-page {
+  #svg {
+    stroke-width: 8px;
+    stroke-dasharray: 4500;
+    animation: draw 8s ease;
+
+    @keyframes draw {
+      0% {
+        stroke-dashoffset: 4500;
+      }
+
+      100% {
+        stroke-dashoffset: 0;
+      }
+    }
+  }
+}

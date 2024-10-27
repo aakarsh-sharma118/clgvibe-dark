@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { gsap } from "gsap";
-import "../../styles/animations.scss";
 
 const Preloader = ({ children, isLoading }) => {
   useEffect(() => {
