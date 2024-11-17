@@ -109,7 +109,7 @@ const LoginPage = () => {
                     to="/forgot-password"
                     className="text-[#0d5ffd] hover:text-[#4a2c75] transition"
                   >
-                    Get help
+                  {" "} Get help
                   </Link>{" "}
                   Signing in
                 </p>

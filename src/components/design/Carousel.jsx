@@ -2,28 +2,41 @@ import { useState, useEffect } from "react";
 
 const Carousel = (props) => {
   const [activeBullet, setActiveBullet] = useState(1);
+  const [isManualInteraction, setIsManualInteraction] = useState(false);
 
   // Handle bullet click
   const handleBulletClick = (index) => {
     setActiveBullet(index);
+    setIsManualInteraction(true);
   };
 
   // Automatically change active bullet every 3 seconds
   useEffect(() => {
-    const interval = setInterval(() => {
+    const autoSlide = () => {
       // Cycle through bullets based on the total number of items
       setActiveBullet((prevActiveBullet) => {
-        const nextBullet =
-          prevActiveBullet === props.carouselData.length
-            ? 1
-            : prevActiveBullet + 1;
-        return nextBullet;
+        return prevActiveBullet === props.carouselData.length
+          ? 1
+          : prevActiveBullet + 1;
       });
-    }, 3000);
+    };
 
-    // Cleanup the interval on component unmount
+    if (isManualInteraction) {
+      // If manual interaction happens, reset the interaction flag after 3 seconds
+      const resetManualInteraction = setTimeout(() => {
+        setIsManualInteraction(false);
+      }, 3000);
+
+      // Clean up the timeout when the effect is re-run or component unmounts
+      return () => clearTimeout(resetManualInteraction);
+    }
+
+    // Set an interval to automatically change the active bullet every 3 seconds
+    const interval = setInterval(autoSlide, 3000);
+
+    // Cleanup the interval on component unmount or when the effect runs again
     return () => clearInterval(interval);
-  }, [props.carouselData.length]); // Re-run when carouselData changes
+  }, [isManualInteraction, props.carouselData.length]);
 
   return (
     <div className="carousel absolute w-full sm:w-[55%] sm:top-0 left-0 sm:left-[45%] bg-opacity-80 rounded-2xl p-6 sm:p-8 transition-all duration-800 ease-in-out">
