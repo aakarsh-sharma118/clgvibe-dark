@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
-
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMortarBoard } from '@fortawesome/free-solid-svg-icons';
 import { navigation } from "../constants";
@@ -48,7 +48,7 @@ const Header = () => {
         >
           <div className="relative z-2 flex flex-col items-center justify-center m-auto lg:flex-row">
             {navigation.map((item) => (
-              <a
+              <Link
                 key={item.id}
                 href={item.url}
                 onClick={handleClick}
@@ -61,7 +61,7 @@ const Header = () => {
                 } lg:leading-5 lg:hover:text-n-1 xl:px-12`}
               >
                 {item.title}
-              </a>
+              </Link>
             ))}
           </div>
 
@@ -74,8 +74,8 @@ const Header = () => {
         >
           New account
         </a>
-        <Button className="hidden lg:flex" href="#login">
-          Log In
+        <Button className="hidden lg:flex">
+          <Link to="/login">Log In</Link>
         </Button>
 
         <Button

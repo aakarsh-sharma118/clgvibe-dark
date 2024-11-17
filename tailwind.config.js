@@ -33,11 +33,15 @@ export default {
           12: "#2E2A41",
           13: "#6C7275",
         },
+        "midnight": "#104f55",
+        "sky": "linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)",
       },
       fontFamily: {
         sans: ["var(--font-sora)", ...fontFamily.sans],
         code: "var(--font-code)",
         grotesk: "var(--font-grotesk)",
+        Lexend: ["Lexend", "sans-serif"],
+        Abel: ['Abel', 'sans-serif'],
       },
       letterSpacing: {
         tagline: ".15em",
@@ -66,6 +70,11 @@ export default {
       },
       borderWidth: {
         DEFAULT: "0.0625rem",
+      },
+      screens: {
+        sm: '530px', // Custom screen size for mobile
+        md: '850px', // Custom screen size for tablet
+        lg: '1024px',
       },
       backgroundImage: {
         "radial-gradient": "radial-gradient(var(--tw-gradient-stops))",

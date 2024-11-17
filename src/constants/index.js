@@ -58,7 +58,7 @@ export const navigation = [
   {
     id: "5",
     title: "Log in",
-    url: "#login",
+    url: "/login",
     onlyMobile: true,
   },
 ];
@@ -292,6 +292,22 @@ export const socials = [
     iconUrl: facebook,
     url: "#",
   },
+];
+
+// Login Carousel Data
+export const LoginCarouselData = [
+  {
+    image: roadmap2,
+    text: "Post image, text and videos",
+  },
+  {
+    image: roadmap3,
+    text: "Chat with friends",
+  },
+  {
+    image: roadmap2,
+    text: "Download and upload 'Notes'",
+  }
 ];
 
 export const getRandomDarkGradientColors = (numColors = 2) => {
