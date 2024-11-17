@@ -25,8 +25,8 @@ const LoginPage = () => {
       <div className="relative w-full max-w-[1020px] h-[640px] bg-white rounded-[3.3rem] shadow-[0_60px_40px_-30px_rgba(0,0,0,0.27)]">
         <div className="absolute inset-0 w-full h-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-8">
           {/* Login Form */}
-          <div className="absolute w-full sm:w-[45%] md:w-[40%] h-full top-0 left-0 grid grid-rows-1">
-            <form className="max-w-[260px] w-full mx-auto h-full flex flex-col justify-evenly transition-opacity duration-300">
+          <div className="absolute w-full sm:w-[45%] h-full top-0 left-0 grid grid-rows-1">
+            <form className="max-w-[260px] w-full mx-auto h-full pb-[10rem] sm:pb-0 flex flex-col justify-evenly transition-opacity duration-300">
               <div className="flex items-center space-x-4 mb-6">
                 <Link to="/" className="text-xl text-black hover:text-gray-800">
                   <FontAwesomeIcon icon={faArrowLeft}/>
@@ -118,7 +118,7 @@ const LoginPage = () => {
           </div>
 
           {/* Carousel */}
-          <div className="hidden sm:block sm:w-[55%] h-full">
+          <div className="sm:block sm:w-[55%] h-full">
             <Carousel carouselData={LoginCarouselData} />
           </div>
         </div>

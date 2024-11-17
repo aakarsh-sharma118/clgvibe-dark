@@ -3,6 +3,7 @@ import { fontFamily } from "tailwindcss/defaultTheme";
 import plugin from "tailwindcss/plugin";
 
 export default {
+  mode: 'jit', // Enable JIT mode
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
@@ -72,8 +73,7 @@ export default {
         DEFAULT: "0.0625rem",
       },
       screens: {
-        sm: '530px', // Custom screen size for mobile
-        md: '850px', // Custom screen size for tablet
+        sm: '850px', // Custom screen size for mobile
         lg: '1024px',
       },
       backgroundImage: {
