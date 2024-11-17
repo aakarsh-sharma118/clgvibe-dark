@@ -42,7 +42,7 @@ const LoginPage = () => {
                 <h6 className="text-gray-500 text-sm">Not registered yet?</h6>
                 <Link
                   to="/signup"
-                  className="text-[#0d5ffd] text-sm font-semibold hover:text-[#71c5fd] transition"
+                  className="text-[#0d5ffd] text-sm font-semibold hover:text-[#4a2c75] transition"
                 >
                   Sign up
                 </Link>
@@ -99,7 +99,7 @@ const LoginPage = () => {
                   </label>
                 </div>
 
-                <button className="w-full h-[43px] bg-black text-white rounded-xl font-semibold hover:bg-[#71d1fd] transition-all">
+                <button className="w-full h-[43px] bg-[#0F0C17] text-white rounded-xl font-semibold hover:bg-[#4a2c75] transition-all">
                   Sign In
                 </button>
 
@@ -107,7 +107,7 @@ const LoginPage = () => {
                   Forgotten your password or login details?
                   <Link
                     to="/forgot-password"
-                    className="text-[#0d5ffd] hover:text-[#71d5fd] transition"
+                    className="text-[#0d5ffd] hover:text-[#4a2c75] transition"
                   >
                     Get help
                   </Link>{" "}
