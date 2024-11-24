@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { colleges } from "../../constants";
 
 const RegistrationPage = () => {
   const [formData, setFormData] = useState({
@@ -16,8 +17,21 @@ const RegistrationPage = () => {
     applyForCollege: false,
   });
 
+  const [errors, setErrors] = useState({
+    password: "",
+    retypePassword: "",
+  });
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+    // Clear the error message when the user starts typing in password or retypePassword fields
+    if (name === "password" || name === "retypePassword") {
+      setErrors({
+        password: "",
+        retypePassword: "",
+      });
+    }
+
     setFormData({
       ...formData,
       [name]: type === "checkbox" ? checked : value,
@@ -26,7 +40,20 @@ const RegistrationPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Data Submitted:", formData);
+    const newErrors = {};
+
+    // Check if password and retypePassword match
+    if (formData.password !== formData.retypePassword) {
+      newErrors.password = "Passwords do not match!";
+      newErrors.retypePassword = "Passwords do not match!";
+    }
+
+    if (Object.keys(newErrors).length === 0) {
+      // If no errors, submit form data
+      console.log("Form Data Submitted:", formData);
+    } else {
+      setErrors(newErrors);
+    }
   };
 
   return (
@@ -53,6 +80,7 @@ const RegistrationPage = () => {
               placeholder="First Name"
               value={formData.firstName}
               onChange={handleChange}
+              required
               className="pl-5 w-full h-10 border rounded focus:outline-none focus:ring-2 focus:ring-[#4a2c75] bg-white text-black placeholder:text-gray-400"
             />
             <input
@@ -96,6 +124,9 @@ const RegistrationPage = () => {
               required
               className="pl-5 w-full h-10 border rounded focus:outline-none focus:ring-2 focus:ring-[#4a2c75] bg-white text-black placeholder:text-gray-400"
             />
+            {errors.password && (
+              <span className="text-red-500 text-sm">{errors.password}</span>
+            )}
           </div>
 
           {/* Re-type Password */}
@@ -112,6 +143,11 @@ const RegistrationPage = () => {
               required
               className="pl-5 w-full h-10 border rounded focus:outline-none focus:ring-2 focus:ring-[#4a2c75] bg-white text-black placeholder:text-gray-400"
             />
+            {errors.retypePassword && (
+              <span className="text-red-500 text-sm">
+                {errors.retypePassword}
+              </span>
+            )}
           </div>
 
           {/* Gender */}
@@ -124,6 +160,7 @@ const RegistrationPage = () => {
                 checked={formData.gender === "Male"}
                 onChange={handleChange}
                 className="mr-2 bg-white border-gray-300 text-[#4a2c75] focus:ring-[#4a2c75]"
+                required
               />
               Male
             </label>
@@ -135,6 +172,7 @@ const RegistrationPage = () => {
                 checked={formData.gender === "Female"}
                 onChange={handleChange}
                 className="mr-2 bg-white border-gray-300 text-[#4a2c75] focus:ring-[#4a2c75]"
+                required
               />
               Female
             </label>
@@ -146,6 +184,7 @@ const RegistrationPage = () => {
                 checked={formData.gender === "Others"}
                 onChange={handleChange}
                 className="mr-2 bg-white border-gray-300 text-[#4a2c75] focus:ring-[#4a2c75]"
+                required
               />
               Others
             </label>
@@ -157,11 +196,15 @@ const RegistrationPage = () => {
               name="college"
               value={formData.college}
               onChange={handleChange}
+              required
               className="pl-5 w-full h-10 border rounded focus:outline-none focus:ring-2 focus:ring-[#4a2c75] bg-white text-black placeholder:text-gray-400"
             >
               <option value="">Select a College</option>
-              <option value="Option 1">Option 1</option>
-              <option value="Option 2">Option 2</option>
+              {colleges.map((college, index) => (
+                <option key={index} value={college}>
+                  {college}
+                </option>
+              ))}
             </select>
           </div>
 

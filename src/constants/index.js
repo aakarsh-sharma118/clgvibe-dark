@@ -310,6 +310,20 @@ export const LoginCarouselData = [
   }
 ];
 
+export const colleges = [
+  "Chaudhary Charan Singh University (CCSU)",
+  "College of Engineering and Rural Technology (CERT)",
+  "Delhi Institute of Engineering and Technology (DIET)",
+  "Dewan V.S. Group of Institutions",
+  "IIMT University",
+  "Mahaveer Institute of Technology (MIT)",
+  "Meerut Institute of Engineering and Technology (MIET)",
+  "Shobhit University",
+  "Shri Ram Institute of Technology (SRIT)",
+  "Subharti Institute of Technology and Engineering (SITE)",
+  "Vidya Knowledge Park",
+];
+
 export const getRandomDarkGradientColors = (numColors = 2) => {
   const colors = [];
 
