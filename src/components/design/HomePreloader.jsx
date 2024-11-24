@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { gsap } from "gsap";
 
-const Preloader = ({ children, isLoading }) => {
+const HomePreloader = ({ children, isLoading }) => {
   useEffect(() => {
     if (isLoading) {
       gsap.fromTo(
@@ -56,4 +56,4 @@ const Preloader = ({ children, isLoading }) => {
   );
 };
 
-export default Preloader;
+export default HomePreloader;

@@ -1,4 +1,4 @@
-import { featureIcons } from "../constants";
+import { featureIcons } from "../../constants";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const FeatureIcons = ({ className }) => {

@@ -11,4 +11,4 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:5173/<_branch_name_>](http://localhost:5173/<_branch_name_>) in your browser to view.
+Open [http://localhost:5173/clgvibe-dark](http://localhost:5173/clgvibe-dark) in your browser to view.

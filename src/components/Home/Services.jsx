@@ -1,16 +1,16 @@
-import Section from "./Section";
-import Heading from "./Heading";
-import { benefitImage2, check } from "../assets";
+import Section from "../design/Section";
+import Heading from "../design/Heading";
+import { benefitImage2, check } from "../../assets";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { clgvibeServices, clgvibeServicesIcons } from "../constants";
+import { clgvibeServices, clgvibeServicesIcons } from "../../constants";
 import {
   PhotoChatMessage,
   Gradient,
   VideoBar,
   VideoChatMessage,
-} from "./design/Services";
+} from "../design/Services";
 
-import Searching from "./Searching";
+import Searching from "../design/Searching";
 
 const Services = () => {
   return (
