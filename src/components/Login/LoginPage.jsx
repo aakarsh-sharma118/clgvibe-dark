@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { faMortarBoard } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faMortarBoard } from "@fortawesome/free-solid-svg-icons";
 import { LoginCarouselData } from "../../constants";
 import Carousel from "../design/Carousel";
 
@@ -29,7 +28,7 @@ const LoginPage = () => {
             <form className="max-w-[260px] w-full mx-auto h-full pb-[10rem] sm:pb-0 flex flex-col justify-evenly transition-opacity duration-300">
               <div className="flex items-center space-x-4 mb-6">
                 <Link to="/" className="text-xl text-black hover:text-gray-800">
-                  <FontAwesomeIcon icon={faArrowLeft}/>
+                  <FontAwesomeIcon icon={faArrowLeft} />
                 </Link>
                 <FontAwesomeIcon icon={faMortarBoard} className="text-black" />
                 <h4 className="font-Lexend text-xl text-black">Clgvibe</h4>
@@ -109,7 +108,8 @@ const LoginPage = () => {
                     to="/forgot-password"
                     className="text-[#0d5ffd] hover:text-[#4a2c75] transition"
                   >
-                  {" "} Get help
+                    {" "}
+                    Get help
                   </Link>{" "}
                   Signing in
                 </p>
