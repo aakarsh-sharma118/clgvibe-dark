@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faMortarBoard } from '@fortawesome/free-solid-svg-icons';
-import { LoginCarouselData } from "../constants";
-import Carousel from "./design/Carousel";
+import { LoginCarouselData } from "../../constants";
+import Carousel from "../design/Carousel";
 
 const LoginPage = () => {
   const [focusedField, setFocusedField] = useState(null); // Track focused input field

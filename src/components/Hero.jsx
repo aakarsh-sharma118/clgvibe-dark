@@ -39,7 +39,7 @@ const Hero = () => {
           Find and Chat with Students Across Colleges. Upgrade your learning
           with ClgVibe.
           </p>
-          <Button href="/divider" white>
+          <Button href="/signup" white>
             Get started
           </Button>
         </div>

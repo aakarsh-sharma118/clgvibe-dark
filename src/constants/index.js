@@ -52,7 +52,7 @@ export const navigation = [
   {
     id: "4",
     title: "New account",
-    url: "#signup",
+    url: "/signup",
     onlyMobile: true,
   },
   {

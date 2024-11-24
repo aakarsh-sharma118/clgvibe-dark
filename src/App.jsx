@@ -12,7 +12,8 @@ import Roadmap from "./components/Roadmap";
 import Services from "./components/Services";
 
 // Import the LoginPage component
-import LoginPage from "./components/LoginPage";
+import LoginPage from "./components/Login/LoginPage";
+import RegistrationPage from "./components/Registration/RegistrationPage";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -47,8 +48,9 @@ const App = () => {
           } 
         />
 
-        {/* Login page route without Preloader */}
+        {/* Login and Registration page route without Preloader */}
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<RegistrationPage />} />
       </Routes>
 
       
