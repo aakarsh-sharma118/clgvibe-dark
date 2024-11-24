@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faMortarBoard } from "@fortawesome/free-solid-svg-icons";
@@ -9,6 +9,30 @@ const LoginPage = () => {
   const [focusedField, setFocusedField] = useState(null); // Track focused input field
   const [username, setUsername] = useState(""); // Store username input value
   const [password, setPassword] = useState(""); // Store password input value
+
+  useEffect(() => {
+    const container = document.querySelector(".falling-stars-container");
+
+    // Function to create a star
+    const createStar = () => {
+      const star = document.createElement("div");
+      star.className = "star";
+      star.style.left = `${Math.random() * 100}vw`; // Random horizontal position
+      star.style.animationDuration = `${3 + Math.random() * 2}s`; // Random duration
+      container.appendChild(star);
+
+      // Remove the star after animation ends
+      setTimeout(() => {
+        star.remove();
+      }, 5000);
+    };
+
+    // Create stars more frequently
+    const interval = setInterval(createStar, 200); // Create a new star every 200ms
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
 
   // Handle input focus/blur
   const handleInputFocus = (field) => setFocusedField(field);
@@ -22,16 +46,26 @@ const LoginPage = () => {
     <main className="w-full min-h-screen flex justify-center bg-white sm:bg-background-gradient sm:p-8 sm:items-center p-0">
       {/* Main Content */}
       <div className="relative w-full sm:w-full lg:max-w-[1020px] sm:h-full lg:h-[640px] bg-white rounded-[3.3rem] sm:shadow-[0_60px_40px_-30px_rgba(0,0,0,0.27)]">
+        {/* Falling Stars Animation */}
+        <div className="falling-stars-container"></div>
         <div className="absolute inset-0 w-full h-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-8">
           {/* Login Form */}
           <div className="absolute w-full sm:w-full lg:w-[45%] h-full top-0 left-0 grid grid-rows-1">
             <form className="max-w-[260px] w-full mx-auto h-full pb-[10rem] sm:pb-0 flex flex-col justify-evenly transition-opacity duration-300">
               <div className="flex items-center space-x-4 mb-6">
-                <Link to="/" className="text-2xl sm:text-xl text-black hover:text-gray-800">
+                <Link
+                  to="/"
+                  className="text-2xl sm:text-xl text-black hover:text-gray-800"
+                >
                   <FontAwesomeIcon icon={faArrowLeft} />
                 </Link>
-                <FontAwesomeIcon icon={faMortarBoard} className="text-black hidden sm:block text-xl" />
-                <h2 className="font-Lexend text-4xl sm:text-xl text-black">Clgvibe</h2>
+                <FontAwesomeIcon
+                  icon={faMortarBoard}
+                  className="text-black hidden sm:block text-xl"
+                />
+                <h2 className="font-Lexend text-4xl sm:text-xl text-black">
+                  Clgvibe
+                </h2>
               </div>
 
               <div className="mb-6">
