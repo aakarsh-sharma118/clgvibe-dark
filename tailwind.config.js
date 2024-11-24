@@ -76,7 +76,7 @@ export default {
       },
       screens: {
         sm: '850px', // Custom screen size for mobile
-        lg: '1024px',
+        lg: '851px',
       },
       backgroundImage: {
         "radial-gradient": "radial-gradient(var(--tw-gradient-stops))",
