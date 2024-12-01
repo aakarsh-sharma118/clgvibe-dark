@@ -199,7 +199,6 @@ const RegistrationPage = () => {
               required
               className="pl-5 w-full h-10 border rounded focus:outline-none focus:ring-2 focus:ring-[#4a2c75] bg-white text-black placeholder:text-gray-400"
             >
-              <option value="">Select a College</option>
               {colleges.map((college, index) => (
                 <option key={index} value={college}>
                   {college}
