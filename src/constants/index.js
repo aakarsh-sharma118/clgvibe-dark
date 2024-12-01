@@ -311,6 +311,7 @@ export const LoginCarouselData = [
 ];
 
 export const colleges = [
+  "Select your College",
   "Chaudhary Charan Singh University (CCSU)",
   "College of Engineering and Rural Technology (CERT)",
   "Delhi Institute of Engineering and Technology (DIET)",

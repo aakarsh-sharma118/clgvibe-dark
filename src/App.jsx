@@ -14,8 +14,8 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
 
         {/* Other pages routes without Preloader */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<RegistrationPage />} />
+        <Route path="/login" element={<LoginPage isLoginPage={true} />} />
+        <Route path="/signup" element={<LoginPage isLoginPage={false} />} />
       </Routes>
 
       <ButtonGradient />
