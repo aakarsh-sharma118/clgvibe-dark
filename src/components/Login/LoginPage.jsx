@@ -81,13 +81,13 @@ const LoginPage = (props) => {
                 >
                   <FontAwesomeIcon icon={faArrowLeft} />
                 </Link>
-                <FontAwesomeIcon
+                {/* <FontAwesomeIcon
                   icon={faMortarBoard}
                   className="text-black hidden sm:block text-xl"
                 />
-                <h2 className="font-Lexend hidden sm:text-xl text-black">
+                <h2 className="font-Lexend text-4xl sm:text-xl text-black">
                   Clgvibe
-                </h2>
+                </h2> */}
               </div>
               <div className="mb-6">
                 <h2 className="font-Abel text-2xl font-semibold text-black">
@@ -184,13 +184,13 @@ const LoginPage = (props) => {
                 >
                   <FontAwesomeIcon icon={faArrowLeft} />
                 </Link>
-                <FontAwesomeIcon
+                {/* <FontAwesomeIcon
                   icon={faMortarBoard}
                   className="text-black hidden sm:block text-xl"
                 />
-                <h2 className="font-Lexend hidden sm:text-xl text-black">
+                <h2 className="font-Lexend text-4xl sm:text-xl text-black">
                   Clgvibe
-                </h2>
+                </h2> */}
               </div>
               <div className="mb-6">
                 <h2 className="font-Abel text-2xl font-semibold text-black">
