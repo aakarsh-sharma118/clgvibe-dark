@@ -357,7 +357,6 @@ const LoginPage = (props) => {
                         {college}
                       </option>
                     ))}
-                    {/* Add more options as needed */}
                   </select>
                 </div>
                 <div className="relative h-[37px]">
@@ -422,7 +421,7 @@ const LoginPage = (props) => {
         </div>
 
         {/* Carousel Section */}
-        <div className="hidden lg:block lg:w-[55%] h-full">
+        <div className="sm:block sm:w-full lg:w-[55%] h-full">
           <Carousel carouselData={LoginCarouselData} />
         </div>
       </div>
