@@ -39,7 +39,7 @@ const Carousel = (props) => {
   }, [isManualInteraction, props.carouselData.length]);
 
   return (
-    <div className="carousel absolute w-full sm:w-[55%] sm:top-0 left-0 sm:left-[45%] bg-opacity-80 rounded-2xl p-6 sm:p-8 transition-all duration-800 ease-in-out">
+    <div className="carousel z-[-1] sm:z-auto absolute w-full sm:w-[55%] sm:top-0 left-0 sm:left-[45%] bg-opacity-80 rounded-2xl p-6 sm:p-8 transition-all duration-800 ease-in-out">
       {/* Images Wrapper */}
       <div className="images-wrapper grid grid-cols-1 grid-rows-1 gap-6">
         {/* Dynamically render images */}
