@@ -7,8 +7,10 @@ import Carousel from "../design/Carousel";
 
 const LoginPage = () => {
   const [focusedField, setFocusedField] = useState(null); // Track focused input field
-  const [username, setUsername] = useState(""); // Store username input value
-  const [password, setPassword] = useState(""); // Store password input value
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  }); // Consolidated state for inputs
 
   useEffect(() => {
     const container = document.querySelector(".falling-stars-container");
@@ -22,9 +24,7 @@ const LoginPage = () => {
       container.appendChild(star);
 
       // Remove the star after animation ends
-      setTimeout(() => {
-        star.remove();
-      }, 5000);
+      setTimeout(() => star.remove(), 5000);
     };
 
     // Create stars more frequently
@@ -34,13 +34,18 @@ const LoginPage = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // Handle input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
   // Handle input focus/blur
   const handleInputFocus = (field) => setFocusedField(field);
   const handleInputBlur = () => setFocusedField(null);
 
-  // Handle username and password change
-  const handleUsernameChange = (e) => setUsername(e.target.value);
-  const handlePasswordChange = (e) => setPassword(e.target.value);
+  // Null/empty checks
+  const isFieldEmpty = (field) => !formData[field]?.trim();
 
   return (
     <main className="w-full min-h-screen flex justify-center bg-white sm:bg-background-gradient sm:p-8 sm:items-center p-0">
@@ -86,11 +91,14 @@ const LoginPage = () => {
                 <div className="relative h-[37px]">
                   <input
                     type="text"
+                    name="username"
                     minLength="4"
-                    value={username} // Bind value to state
-                    onChange={handleUsernameChange} // Handle input changes
+                    value={formData.username}
+                    onChange={handleInputChange}
                     className={`w-full h-full bg-transparent border-b border-gray-400 outline-none text-gray-900 focus:border-black transition-all duration-300 input-field ${
-                      focusedField === "username" || username ? "active" : ""
+                      focusedField === "username" || !isFieldEmpty("username")
+                        ? "active"
+                        : ""
                     }`}
                     onFocus={() => handleInputFocus("username")}
                     onBlur={handleInputBlur}
@@ -98,7 +106,7 @@ const LoginPage = () => {
                   />
                   <label
                     className={`absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-500 transition-all duration-300 ${
-                      focusedField === "username" || username
+                      focusedField === "username" || !isFieldEmpty("username")
                         ? "text-sm top-[-2px]"
                         : "text-base top-1/2"
                     }`}
@@ -111,11 +119,14 @@ const LoginPage = () => {
                 <div className="relative h-[37px]">
                   <input
                     type="password"
+                    name="password"
                     minLength="4"
-                    value={password} // Bind value to state
-                    onChange={handlePasswordChange} // Handle input changes
+                    value={formData.password}
+                    onChange={handleInputChange}
                     className={`w-full h-full bg-transparent border-b border-gray-400 outline-none text-gray-900 focus:border-black transition-all duration-300 input-field ${
-                      focusedField === "password" || password ? "active" : ""
+                      focusedField === "password" || !isFieldEmpty("password")
+                        ? "active"
+                        : ""
                     }`}
                     onFocus={() => handleInputFocus("password")}
                     onBlur={handleInputBlur}
@@ -123,7 +134,7 @@ const LoginPage = () => {
                   />
                   <label
                     className={`absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-500 transition-all duration-300 ${
-                      focusedField === "password" || password
+                      focusedField === "password" || !isFieldEmpty("password")
                         ? "text-sm top-[-2px]"
                         : "text-base top-1/2"
                     }`}
