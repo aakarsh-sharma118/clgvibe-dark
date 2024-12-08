@@ -17,7 +17,7 @@ const TextInput = ({
   focusedField,
   isEmpty,
   type = "text",
-  minLength = 4,
+  minLength = 2,
 }) => (
   <div className="relative h-[37px]">
     <input
@@ -34,6 +34,7 @@ const TextInput = ({
       required
     />
     <label
+      htmlFor={name}
       className={`absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-500 transition-all duration-300 ${
         focusedField === name || !isEmpty
           ? "text-sm top-[-2px]"
@@ -65,12 +66,16 @@ const LoginPage = (props) => {
     email: "",
     password: "",
     confirmPassword: "",
-    fullName: "",
+    firstName: "",
+    lastName: "",
     gender: "",
     college: "",
     agreeTerms: false,
     applyForCollege: false,
   });
+
+  // State to track form-specific error messages
+  const [formErrors, setFormErrors] = useState({});
 
   // State to track the current step in the multi-step sign-up process
   const [currentStep, setCurrentStep] = useState(1);
@@ -107,6 +112,7 @@ const LoginPage = (props) => {
     } else {
       setSignUpFormData((prev) => ({ ...prev, [name]: value ?? "" }));
     }
+    setFormErrors({});
   };
 
   // Handle input focus
@@ -128,27 +134,66 @@ const LoginPage = (props) => {
     }
   };
 
+  // Validate email format
+  const isEmailValid = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   // Form submission handler for login
   const handleLoginSubmit = (e) => {
     e.preventDefault();
+    // Additional login validation logic can be added here
   };
 
   // Form submission handler for sign-up
   const handleSignUpSubmit = (e) => {
     e.preventDefault();
-    setCurrentStep(3)
+
+    const { email, password, confirmPassword, agreeTerms } = signUpFormData;
+
+    // Validation logic
+    const errors = {};
+    if (!email?.trim()) errors.email = "Email is required.";
+    else if (!isEmailValid(email)) errors.email = "Invalid email format.";
+    if (!password?.trim()) errors.password = "Password is required.";
+    if (password?.trim() !== confirmPassword?.trim())
+      errors.confirmPassword = "Passwords do not match.";
+    if (!agreeTerms) errors.agreeTerms = "You must agree to the terms.";
+
+    setFormErrors(errors);
+
+    if (Object.keys(errors).length === 0) {
+      setCurrentStep(3);
+    }
   };
 
   // Validate step 1 form
   const isStep1Valid = () => {
-    const { fullName, email, password, confirmPassword } = signUpFormData;
-    return (
-      fullName &&
-      email &&
-      password &&
-      confirmPassword &&
-      password === confirmPassword
-    );
+    const { firstName, lastName, college } = signUpFormData;
+    const errors = {};
+
+    // Validation logic
+    if (!firstName?.trim()) {
+      errors.firstName = "First Name is required.";
+    } else if (firstName.trim().length < 2) {
+      errors.firstName = "Please enter at least 2 characters.";
+    }
+
+    if (!lastName?.trim()) {
+      errors.lastName = "Last Name is required.";
+    } else if (lastName.trim().length < 2) {
+      errors.lastName = "Please enter at least 2 characters.";
+    }
+
+    if (!college?.trim()) {
+      errors.college = "You must select your College.";
+    }
+
+    setFormErrors(errors);
+
+    // Return whether the form is valid without setting the step here.
+    return Object.keys(errors).length === 0;
   };
 
   return (
@@ -186,13 +231,14 @@ const LoginPage = (props) => {
                 <button
                   type="button"
                   onClick={() => setIsLoginFormVisible(false)}
-                  className="text-[#0d5ffd] text-sm font-semibold hover:text-[#4a2c75] transition"
+                  className="text-color-link text-sm font-semibold hover:text-color-hover transition"
                 >
                   Sign up
                 </button>
               </div>
               {/* Login form fields */}
               <div className="space-y-6">
+                {/* Username Input Field */}
                 <TextInput
                   label="Username"
                   name="username"
@@ -203,10 +249,13 @@ const LoginPage = (props) => {
                   focusedField={focusedField}
                   isEmpty={isFieldEmpty("username")}
                 />
+
+                {/* Password Input Field */}
                 <TextInput
                   label="Password"
                   name="password"
                   type="password"
+                  minLength="8"
                   value={loginFormData.password}
                   onChange={handleInputChange}
                   onFocus={handleInputFocus}
@@ -215,14 +264,14 @@ const LoginPage = (props) => {
                   isEmpty={isFieldEmpty("password")}
                 />
                 {/* Sign in button */}
-                <button className="w-full h-[43px] bg-[#0F0C17] text-white rounded-xl font-semibold hover:bg-[#4a2c75] transition-all">
+                <button className="w-full h-[43px] bg-[#0F0C17] text-white rounded-xl font-semibold hover:bg-color-hover transition-all">
                   Sign In
                 </button>
                 <p className="text-sm text-gray-400">
                   Forgotten your password or login details?
                   <Link
                     to="/forgot-password"
-                    className="text-[#0d5ffd] hover:text-[#4a2c75] transition"
+                    className="text-color-link hover:text-color-hover transition"
                   >
                     {" "}
                     Get help{" "}
@@ -232,7 +281,7 @@ const LoginPage = (props) => {
               </div>
             </form>
           ) : currentStep === 1 ? (
-            // Step 1 of the Sign-up form
+            // Step 1 of sign-up form
             <form
               className="max-w-[260px] w-full mx-auto h-full pb-[10rem] sm:pb-0 flex flex-col justify-evenly transition-opacity duration-300"
               onSubmit={handleSignUpSubmit}
@@ -257,61 +306,101 @@ const LoginPage = (props) => {
               </div>
               {/* Form fields for step 1 */}
               <div className="space-y-6">
+                {/* First Name Input Field */}
                 <TextInput
-                  label="Full Name"
-                  name="fullName"
-                  value={signUpFormData.fullName}
+                  label="First Name"
+                  name="firstName"
+                  value={signUpFormData.firstName}
                   onChange={handleInputChange}
                   onFocus={handleInputFocus}
                   onBlur={handleInputBlur}
                   focusedField={focusedField}
-                  isEmpty={isFieldEmpty("fullName")}
+                  isEmpty={isFieldEmpty("firstName")}
                 />
+                {/* Validation errors */}
+                {formErrors.firstName &&
+                  formErrors.firstName &&
+                  formErrors.firstName !== "" && (
+                    <p
+                      className="text-red-500 text-xs !mt-1"
+                      key={formErrors.firstName}
+                    >
+                      {formErrors.firstName}
+                    </p>
+                  )}
+
+                {/* Last Name Input Field */}
                 <TextInput
-                  label="Email"
-                  name="email"
-                  type="email"
-                  value={signUpFormData.email}
+                  label="Last Name"
+                  name="lastName"
+                  value={signUpFormData.lastName}
                   onChange={handleInputChange}
                   onFocus={handleInputFocus}
                   onBlur={handleInputBlur}
                   focusedField={focusedField}
-                  isEmpty={isFieldEmpty("email")}
+                  isEmpty={isFieldEmpty("lastName")}
                 />
-                <TextInput
-                  label="Password"
-                  name="password"
-                  type="password"
-                  value={signUpFormData.password}
-                  onChange={handleInputChange}
-                  onFocus={handleInputFocus}
-                  onBlur={handleInputBlur}
-                  focusedField={focusedField}
-                  isEmpty={isFieldEmpty("password")}
-                />
-                <TextInput
-                  label="Confirm Password"
-                  name="confirmPassword"
-                  type="password"
-                  value={signUpFormData.confirmPassword}
-                  onChange={handleInputChange}
-                  onFocus={handleInputFocus}
-                  onBlur={handleInputBlur}
-                  focusedField={focusedField}
-                  isEmpty={isFieldEmpty("confirmPassword")}
-                />
-                {/* Step 1 Next button */}
+                {/* Validation errors */}
+                {formErrors.lastName &&
+                  formErrors.lastName &&
+                  formErrors.lastName !== "" && (
+                    <p
+                      className="text-red-500 text-xs !mt-1"
+                      key={formErrors.lastName}
+                    >
+                      {formErrors.lastName}
+                    </p>
+                  )}
+
+                {/* College options */}
+                <div className="relative h-[37px]">
+                  <select
+                    name="college"
+                    value={signUpFormData.college}
+                    onChange={handleInputChange}
+                    className="w-full h-full bg-transparent border-b border-gray-400 outline-none text-gray-900 focus:border-black transition-all duration-300 input-field"
+                    required
+                  >
+                    {colleges.map((college, index) => (
+                      <option key={index} value={college}>
+                        {college}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {/* Validation errors */}
+                {formErrors.college &&
+                  formErrors.college &&
+                  formErrors.college !== "" && (
+                    <p
+                      className="text-red-500 text-xs !mt-1"
+                      key={formErrors.college}
+                    >
+                      {formErrors.college}
+                    </p>
+                  )}
+
+                {/* Gender options */}
+                <div className="relative h-[37px]">
+                  <select
+                    name="gender"
+                    value={signUpFormData.gender}
+                    onChange={handleInputChange}
+                    className="w-full h-full bg-transparent border-b border-gray-400 outline-none text-gray-900 focus:border-black transition-all duration-300 input-field"
+                    required
+                  >
+                    <option value="">Select your gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                {/* Continue To Step 2 button */}
                 <button
                   type="submit"
-                  className={`w-full h-[43px] ${
-                    isStep1Valid()
-                      ? "bg-[#0F0C17] hover:bg-[#4a2c75]"
-                      : "bg-gray-400"
-                  } text-white rounded-xl font-semibold transition-all ${
-                    !isStep1Valid() && "cursor-not-allowed"
-                  }`}
-                  disabled={!isStep1Valid()}
-                  onClick={() => setCurrentStep(2)}
+                  className="w-full h-[43px] bg-[#0F0C17] hover:bg-color-hover text-white rounded-xl font-semibold transition-all"
+                  onClick={isStep1Valid}
                 >
                   Next
                 </button>
@@ -320,7 +409,7 @@ const LoginPage = (props) => {
                   <button
                     type="button"
                     onClick={() => setIsLoginFormVisible(true)}
-                    className="text-[#0d5ffd] text-sm font-semibold hover:text-[#4a2c75] transition"
+                    className="text-color-link text-sm font-semibold hover:text-color-hover transition"
                   >
                     Log In
                   </button>
@@ -328,7 +417,7 @@ const LoginPage = (props) => {
               </div>
             </form>
           ) : currentStep === 2 ? (
-            // Step 2: Select Your Gender
+            // Step 2 of the sign-up process - additional user details
             <form
               className="max-w-[260px] w-full mx-auto h-full pb-[10rem] sm:pb-0 flex flex-col justify-evenly transition-opacity duration-300"
               onSubmit={handleSignUpSubmit}
@@ -345,43 +434,84 @@ const LoginPage = (props) => {
               {/* Sign-up Step 2 form title */}
               <div className="mb-6">
                 <h2 className="font-Abel text-2xl font-semibold text-black">
-                  Step 2
+                  Step 2 : Additional Details
                 </h2>
                 <h6 className="text-gray-500 text-sm">You are nearly there!</h6>
               </div>
-              {/* College options */}
               <div className="space-y-6">
-                <div className="relative h-[37px]">
-                  <select
-                    name="college"
-                    value={signUpFormData.college}
-                    onChange={handleInputChange}
-                    className="w-full h-full bg-transparent border-b border-gray-400 outline-none text-gray-900 focus:border-black transition-all duration-300 input-field"
-                    required
-                  >
-                    {colleges.map((college, index) => (
-                      <option key={index} value={college}>
-                        {college}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                {/* Email Input Field */}
+                <TextInput
+                  label="Email"
+                  name="email"
+                  value={signUpFormData.email}
+                  onChange={handleInputChange}
+                  onFocus={handleInputFocus}
+                  onBlur={handleInputBlur}
+                  focusedField={focusedField}
+                  isEmpty={isFieldEmpty("email")}
+                />
+                {/* Validation errors */}
+                {formErrors.email &&
+                  formErrors.email &&
+                  formErrors.email !== "" && (
+                    <p
+                      className="text-red-500 text-xs !mt-1"
+                      key={formErrors.email}
+                    >
+                      {formErrors.email}
+                    </p>
+                  )}
 
-                {/* Gender options */}
-                <div className="relative h-[37px]">
-                  <select
-                    name="gender"
-                    value={signUpFormData.gender}
-                    onChange={handleInputChange}
-                    className="w-full h-full bg-transparent border-b border-gray-400 outline-none text-gray-900 focus:border-black transition-all duration-300 input-field"
-                    required
-                  >
-                    <option value="">Select Gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </div>
+                {/* Password Input Field */}
+                <TextInput
+                  label="Password"
+                  name="password"
+                  type="password"
+                  minLength="8"
+                  value={signUpFormData.password}
+                  onChange={handleInputChange}
+                  onFocus={handleInputFocus}
+                  onBlur={handleInputBlur}
+                  focusedField={focusedField}
+                  isEmpty={isFieldEmpty("password")}
+                />
+                {/* Validation errors */}
+                {formErrors.password &&
+                  formErrors.password &&
+                  formErrors.password !== "" && (
+                    <p
+                      className="text-red-500 text-xs !mt-1"
+                      key={formErrors.password}
+                    >
+                      {formErrors.password}
+                    </p>
+                  )}
+
+                {/* Confirm Password Input Field */}
+                <TextInput
+                  label="Confirm Password"
+                  name="confirmPassword"
+                  type="password"
+                  minLength="8"
+                  value={signUpFormData.confirmPassword}
+                  onChange={handleInputChange}
+                  onFocus={handleInputFocus}
+                  onBlur={handleInputBlur}
+                  focusedField={focusedField}
+                  isEmpty={isFieldEmpty("confirmPassword")}
+                />
+                {/* Validation errors */}
+                {formErrors.confirmPassword &&
+                  formErrors.confirmPassword &&
+                  formErrors.confirmPassword !== "" && (
+                    <p
+                      className="text-red-500 text-xs !mt-1"
+                      key={formErrors.confirmPassword}
+                    >
+                      {formErrors.confirmPassword}
+                    </p>
+                  )}
+
                 {/* Agree Terms checkbox */}
                 <div className="relative h-[37px]">
                   <label className="inline-flex items-center text-gray-500">
@@ -389,11 +519,11 @@ const LoginPage = (props) => {
                       type="checkbox"
                       name="agreeTerms"
                       checked={signUpFormData.agreeTerms}
-                      onChange={(e) =>
-                        setSignUpFormData({
-                          ...signUpFormData,
-                          agreeTerms: e.target.checked,
-                        })
+                      onChange={() =>
+                        setSignUpFormData((prev) => ({
+                          ...prev,
+                          agreeTerms: !prev.agreeTerms,
+                        }))
                       }
                       className="mr-2"
                       required
@@ -401,12 +531,23 @@ const LoginPage = (props) => {
                     I agree to the terms and conditions
                   </label>
                 </div>
+                {/* Validation errors */}
+                {formErrors.agreeTerms &&
+                  formErrors.agreeTerms &&
+                  formErrors.agreeTerms !== "" && (
+                    <p
+                      className="text-red-500 text-xs !mt-1"
+                      key={formErrors.agreeTerms}
+                    >
+                      {formErrors.agreeTerms}
+                    </p>
+                  )}
                 {/* Step 2 Next button */}
                 <button
                   type="submit"
                   className={`w-full h-[43px] ${
                     signUpFormData.agreeTerms
-                      ? "bg-[#0F0C17] hover:bg-[#4a2c75]"
+                      ? "bg-[#0F0C17] hover:bg-color-hover"
                       : "bg-gray-400"
                   } text-white rounded-xl font-semibold transition-all ${
                     !signUpFormData.agreeTerms && "cursor-not-allowed"
@@ -426,13 +567,14 @@ const LoginPage = (props) => {
             <div className="max-w-[260px] w-full mx-auto h-full pb-[10rem] sm:pb-0 flex flex-col justify-evenly transition-opacity duration-300">
               {/* Additional form steps or content can be added here */}
               <h2 className="font-Abel text-2xl font-semibold text-black">
-                Thank you for signing up!
+                Sign-up Complete!
               </h2>
               <p className="text-gray-500">
+                Thank you for signing up! You can now log in to your account.
                 Please check your email for confirmation.
               </p>
               <button
-                className="mt-4 w-full h-[43px] bg-[#0F0C17] text-white rounded-xl font-semibold hover:bg-[#4a2c75] transition-all"
+                className="mt-4 w-full h-[43px] bg-[#0F0C17] text-white rounded-xl font-semibold hover:bg-color-hover transition-all"
                 onClick={() => setIsLoginFormVisible(true)}
               >
                 Return to Login
