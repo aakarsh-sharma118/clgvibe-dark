@@ -323,6 +323,7 @@ export const colleges = [
   "Shri Ram Institute of Technology (SRIT)",
   "Subharti Institute of Technology and Engineering (SITE)",
   "Vidya Knowledge Park",
+  "Apply for your College",
 ];
 
 export const getRandomDarkGradientColors = (numColors = 2) => {
