@@ -157,11 +157,10 @@ const LoginPage = (props) => {
 
     setFormErrors(errors);
 
-    // Return whether the form is valid with setting the step here.
+    // If the form is valid then setting the step here.
     if (Object.keys(errors).length === 0) {
       setCurrentStep(2);
     }
-    return Object.keys(errors).length === 0;
   };
 
   return (
