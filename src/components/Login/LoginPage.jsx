@@ -157,7 +157,10 @@ const LoginPage = (props) => {
 
     setFormErrors(errors);
 
-    // Return whether the form is valid without setting the step here.
+    // Return whether the form is valid with setting the step here.
+    if (Object.keys(errors).length === 0) {
+      setCurrentStep(2);
+    }
     return Object.keys(errors).length === 0;
   };
 
@@ -235,7 +238,7 @@ const LoginPage = (props) => {
                   Sign In
                 </button>
                 <p className="text-sm text-gray-400">
-                  Forgotten your password or login details? {" "}
+                  Forgotten your password or login details?{" "}
                   <button
                     onClick={() => setForgotPassword(true)}
                     className="text-color-link hover:text-color-hover transition"
@@ -364,7 +367,6 @@ const LoginPage = (props) => {
 
                 {/* Continue To Step 2 button */}
                 <button
-                  type="submit"
                   className="w-full h-[43px] bg-[#0F0C17] hover:bg-color-hover text-white rounded-xl font-semibold transition-all"
                   onClick={isStep1Valid}
                 >
