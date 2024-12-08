@@ -1,5 +1,5 @@
-import { gradient, play } from "../../assets";
-import ChatBubbleWing from "../../assets/svg/ChatBubbleWing";
+import { gradient, play } from "../../../assets";
+import ChatBubbleWing from "../../../assets/svg/ChatBubbleWing";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faVideo } from '@fortawesome/free-solid-svg-icons';
 

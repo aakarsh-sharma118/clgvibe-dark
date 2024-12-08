@@ -2,9 +2,9 @@ import { check } from "../../assets";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMortarBoard } from '@fortawesome/free-solid-svg-icons';
 import { collabApps, collabContent, collabText } from "../../constants";
-import Button from "../design/Button";
-import Section from "../design/Section";
-import { LeftCurve, RightCurve } from "../design/Collaboration";
+import Button from "./design/Button";
+import Section from "./design/Section";
+import { LeftCurve, RightCurve } from "./design/Collaboration";
 
 const Collaboration = () => {
   return (

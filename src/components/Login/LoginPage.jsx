@@ -5,7 +5,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { LoginCarouselData } from "../../constants";
 import ForgotPassword from "./ForgotPassword";
 import { colleges } from "../../constants";
-import Carousel from "../design/Carousel";
+import Carousel from "./Carousel";
 import TextInput from "./TextInput";
 
 const LoginPage = (props) => {

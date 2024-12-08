@@ -1,10 +1,10 @@
-import Button from "../design/Button";
-import Heading from "../design/Heading";
-import Section from "../design/Section";
-import Tagline from "../design/Tagline";
+import Button from "./design/Button";
+import Heading from "./design/Heading";
+import Section from "./design/Section";
+import Tagline from "./design/Tagline";
 import { roadmap } from "../../constants";
 import { check2, grid, loading1 } from "../../assets";
-import { Gradient } from "../design/Roadmap";
+import { Gradient } from "./design/Roadmap";
 
 const Roadmap = () => (
   <Section className="overflow-hidden" id="roadmap">

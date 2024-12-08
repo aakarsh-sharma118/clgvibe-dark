@@ -1,9 +1,9 @@
 import { benefits, getRandomDarkGradientColors } from "../../constants";
-import Heading from "../design/Heading";
-import Section from "./../design/Section";
+import Heading from "./design/Heading";
+import Section from "./design/Section";
 import Arrow from "../../assets/svg/Arrow";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { GradientLight } from "../design/Benefits";
+import { GradientLight } from "./design/Benefits";
 import ClipPath from "../../assets/svg/ClipPath";
 
 const Benefits = () => {

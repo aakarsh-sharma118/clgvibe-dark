@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import HomePreloader from "../design/HomePreloader";
+import HomePreloader from "./design/HomePreloader";
 import Header from "./Header";
 import Hero from "./Hero";
 import Benefits from "./Benefits";
 import Collaboration from "./Collaboration";
 import Services from "./Services";
-import Divider from "../design/Divider";
+import Divider from "./design/Divider";
 import Roadmap from "./Roadmap";
 import Footer from "./Footer";
 

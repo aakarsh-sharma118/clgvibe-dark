@@ -1,5 +1,5 @@
 import Section from "./Section";
-import { smallSphere, stars } from "../../assets";
+import { smallSphere, stars } from "../../../assets";
 
 const Divider = () => {
   return (

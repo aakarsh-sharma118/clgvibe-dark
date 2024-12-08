@@ -1,4 +1,4 @@
-import ButtonSvg from "../../assets/svg/ButtonSvg";
+import ButtonSvg from "../../../assets/svg/ButtonSvg";
 import { Link } from "react-router-dom";
 
 const Button = ({ className, href, onClick, children, px, white }) => {

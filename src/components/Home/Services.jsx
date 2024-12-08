@@ -1,5 +1,5 @@
-import Section from "../design/Section";
-import Heading from "../design/Heading";
+import Section from "./design/Section";
+import Heading from "./design/Heading";
 import { benefitImage2, check } from "../../assets";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { clgvibeServices, clgvibeServicesIcons } from "../../constants";
@@ -8,9 +8,8 @@ import {
   Gradient,
   VideoBar,
   VideoChatMessage,
-} from "../design/Services";
-
-import Searching from "../design/Searching";
+} from "./design/Services";
+import Searching from "./design/Searching";
 
 const Services = () => {
   return (
