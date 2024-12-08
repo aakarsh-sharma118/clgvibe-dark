@@ -162,9 +162,9 @@ const LoginPage = (props) => {
   };
 
   return (
-    <main className="w-full min-h-screen flex justify-center bg-white sm:bg-background-gradient sm:p-8 sm:items-center p-0">
+    <main className="w-full min-h-screen flex justify-center bg-softBeige sm:bg-background-gradient sm:p-8 sm:items-center p-0">
       {/* Main container for the login page */}
-      <div className="relative w-full lg:max-w-[1020px] sm:h-full lg:h-[640px] bg-white rounded-[3.3rem] sm:shadow-[0_60px_40px_-30px_rgba(0,0,0,0.27)] flex">
+      <div className="relative w-full lg:max-w-[1020px] sm:h-full lg:h-[640px] bg-softBeige rounded-[3.3rem] sm:shadow-[0_60px_40px_-30px_rgba(0,0,0,0.27)] flex">
         {/* Form Section */}
         <div className="flex-1 p-8">
           {/* Container for falling stars animation */}

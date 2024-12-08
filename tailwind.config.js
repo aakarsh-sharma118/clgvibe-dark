@@ -38,6 +38,7 @@ export default {
         },
         "midnight": "#104f55",
         "sky": "linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)",
+        "softBeige": "#F5F5DC",
       },
       fontFamily: {
         sans: ["var(--font-sora)", ...fontFamily.sans],
