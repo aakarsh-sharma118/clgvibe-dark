@@ -3,50 +3,15 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { LoginCarouselData } from "../../constants";
+import ForgotPassword from "./ForgotPassword";
 import { colleges } from "../../constants";
 import Carousel from "../design/Carousel";
-
-// Reusable TextInput component for input fields
-const TextInput = ({
-  label,
-  name,
-  value,
-  onChange,
-  onFocus,
-  onBlur,
-  focusedField,
-  isEmpty,
-  type = "text",
-  minLength = 2,
-}) => (
-  <div className="relative h-[37px]">
-    <input
-      type={type}
-      name={name}
-      minLength={minLength}
-      value={value}
-      onChange={onChange}
-      className={`w-full h-full bg-transparent border-b border-gray-400 outline-none text-gray-900 focus:border-black transition-all duration-300 input-field ${
-        focusedField === name || !isEmpty ? "active" : ""
-      }`}
-      onFocus={() => onFocus(name)}
-      onBlur={onBlur}
-      required
-    />
-    <label
-      htmlFor={name}
-      className={`absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-500 transition-all duration-300 ${
-        focusedField === name || !isEmpty
-          ? "text-sm top-[-2px]"
-          : "text-base top-1/2"
-      }`}
-    >
-      {label}
-    </label>
-  </div>
-);
+import TextInput from "./TextInput";
 
 const LoginPage = (props) => {
+  // State for toggling between login and Forgot Password forms
+  const [forgotPassword, setForgotPassword] = useState(false);
+
   // State for managing the currently focused input field
   const [focusedField, setFocusedField] = useState(null);
 
@@ -205,8 +170,10 @@ const LoginPage = (props) => {
           {/* Container for falling stars animation */}
           <div className="falling-stars-container"></div>
 
-          {/* Conditional rendering for login and sign-up forms */}
-          {isLoginFormVisible ? (
+          {/* Conditional rendering for login, forgot password and sign-up forms */}
+          {forgotPassword ? (
+            <ForgotPassword moveBackToLogIn={() => setForgotPassword(false)} />
+          ) : isLoginFormVisible ? (
             // Login form
             <form
               className="max-w-[260px] w-full mx-auto h-full pb-[10rem] sm:pb-0 flex flex-col justify-evenly transition-opacity duration-300"
@@ -268,14 +235,13 @@ const LoginPage = (props) => {
                   Sign In
                 </button>
                 <p className="text-sm text-gray-400">
-                  Forgotten your password or login details?
-                  <Link
-                    to="/forgot-password"
+                  Forgotten your password or login details? {" "}
+                  <button
+                    onClick={() => setForgotPassword(true)}
                     className="text-color-link hover:text-color-hover transition"
                   >
-                    {" "}
-                    Get help{" "}
-                  </Link>
+                    Get help
+                  </button>{" "}
                   Signing in
                 </p>
               </div>
