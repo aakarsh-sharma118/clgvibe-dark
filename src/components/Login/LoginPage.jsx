@@ -260,18 +260,8 @@ const LoginPage = (props) => {
                   value={signUpFormData.firstName}
                   onChange={handleInputChange}
                   required={true}
+                  error={formErrors?.firstName}
                 />
-                {/* Validation errors */}
-                {formErrors.firstName &&
-                  formErrors.firstName &&
-                  formErrors.firstName !== "" && (
-                    <p
-                      className="text-red-500 text-xs !mt-1"
-                      key={formErrors.firstName}
-                    >
-                      {formErrors.firstName}
-                    </p>
-                  )}
 
                 {/* Last Name Input Field */}
                 <InputFields
@@ -280,18 +270,8 @@ const LoginPage = (props) => {
                   value={signUpFormData.lastName}
                   onChange={handleInputChange}
                   required={true}
+                  error={formErrors?.lastName}
                 />
-                {/* Validation errors */}
-                {formErrors.lastName &&
-                  formErrors.lastName &&
-                  formErrors.lastName !== "" && (
-                    <p
-                      className="text-red-500 text-xs !mt-1"
-                      key={formErrors.lastName}
-                    >
-                      {formErrors.lastName}
-                    </p>
-                  )}
 
                 {/* College options */}
                 <InputFields
@@ -302,19 +282,8 @@ const LoginPage = (props) => {
                   onChange={handleInputChange}
                   className="h-[37px]"
                   required={true}
+                  error={formErrors?.college}
                 />
-
-                {/* Validation errors */}
-                {formErrors.college &&
-                  formErrors.college &&
-                  formErrors.college !== "" && (
-                    <p
-                      className="text-red-500 text-xs !mt-1"
-                      key={formErrors.college}
-                    >
-                      {formErrors.college}
-                    </p>
-                  )}
 
                 {/* Gender options */}
                 <InputFields
@@ -375,18 +344,8 @@ const LoginPage = (props) => {
                   value={signUpFormData.email}
                   onChange={handleInputChange}
                   required={true}
+                  error={formErrors?.email}
                 />
-                {/* Validation errors */}
-                {formErrors.email &&
-                  formErrors.email &&
-                  formErrors.email !== "" && (
-                    <p
-                      className="text-red-500 text-xs !mt-1"
-                      key={formErrors.email}
-                    >
-                      {formErrors.email}
-                    </p>
-                  )}
 
                 {/* Password Input Field */}
                 <InputFields
@@ -397,18 +356,8 @@ const LoginPage = (props) => {
                   value={signUpFormData.password}
                   onChange={handleInputChange}
                   required={true}
+                  error={formErrors?.password}
                 />
-                {/* Validation errors */}
-                {formErrors.password &&
-                  formErrors.password &&
-                  formErrors.password !== "" && (
-                    <p
-                      className="text-red-500 text-xs !mt-1"
-                      key={formErrors.password}
-                    >
-                      {formErrors.password}
-                    </p>
-                  )}
 
                 {/* Confirm Password Input Field */}
                 <InputFields
@@ -419,18 +368,8 @@ const LoginPage = (props) => {
                   value={signUpFormData.confirmPassword}
                   onChange={handleInputChange}
                   required={true}
+                  error={formErrors?.confirmPassword}
                 />
-                {/* Validation errors */}
-                {formErrors.confirmPassword &&
-                  formErrors.confirmPassword &&
-                  formErrors.confirmPassword !== "" && (
-                    <p
-                      className="text-red-500 text-xs !mt-1"
-                      key={formErrors.confirmPassword}
-                    >
-                      {formErrors.confirmPassword}
-                    </p>
-                  )}
 
                 {/* Agree Terms checkbox */}
                 <InputFields
@@ -445,18 +384,9 @@ const LoginPage = (props) => {
                     }))
                   }
                   className="text-sm"
+                  error={formErrors?.agreeTerms}
                 />
-                {/* Validation errors */}
-                {formErrors.agreeTerms &&
-                  formErrors.agreeTerms &&
-                  formErrors.agreeTerms !== "" && (
-                    <p
-                      className="text-red-500 text-xs !mt-1"
-                      key={formErrors.agreeTerms}
-                    >
-                      {formErrors.agreeTerms}
-                    </p>
-                  )}
+
                 {/* Step 2 Next button */}
                 <button
                   type="submit"

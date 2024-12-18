@@ -125,10 +125,8 @@ const ForgotPassword = (props) => {
             name="email"
             value={email}
             onChange={handleInputChange(setEmail, "email")}
+            error={formErrors?.email}
           />
-          {formErrors.email && (
-            <p className="text-red-500 text-xs !mt-1">{formErrors.email}</p>
-          )}
           <button
             type="submit"
             className="w-full h-[43px] bg-[#0F0C17] hover:bg-color-hover text-white rounded-xl font-semibold transition-all"
@@ -146,10 +144,8 @@ const ForgotPassword = (props) => {
             name="otp"
             value={otp}
             onChange={handleInputChange(setOtp, "otp")}
+            error={formErrors?.otp}
           />
-          {formErrors.otp && (
-            <p className="text-red-500 text-xs !mt-1">{formErrors.otp}</p>
-          )}
           <p className="text-gray-500 text-sm">
             Resend OTP in {Math.floor(timer / 60)}:
             {("0" + (timer % 60)).slice(-2)}
@@ -193,10 +189,8 @@ const ForgotPassword = (props) => {
             minLength="8"
             value={confirmPassword}
             onChange={handleInputChange(setConfirmPassword, "confirmPassword")}
+            error={formErrors?.password}
           />
-          {formErrors.password && (
-            <p className="text-red-500 text-xs !mt-1">{formErrors.password}</p>
-          )}
           <button
             type="submit"
             className="w-full h-[43px] bg-[#0F0C17] hover:bg-color-hover text-white rounded-xl font-semibold transition-all"
