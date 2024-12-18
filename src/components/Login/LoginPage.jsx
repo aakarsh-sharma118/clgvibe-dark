@@ -12,9 +12,6 @@ const LoginPage = (props) => {
   // State for toggling between login and Forgot Password forms
   const [forgotPassword, setForgotPassword] = useState(false);
 
-  // State for managing the currently focused input field
-  const [focusedField, setFocusedField] = useState(null);
-
   // State for toggling between login and sign-up forms
   const [isLoginFormVisible, setIsLoginFormVisible] = useState(
     props.isLoginPage
