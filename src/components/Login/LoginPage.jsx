@@ -301,7 +301,7 @@ const LoginPage = (props) => {
                   name="college"
                   type="select"
                   value={signUpFormData.college}
-                  options={colleges} // Pass the array of colleges
+                  options={colleges}
                   onChange={handleInputChange}
                   className="h-[37px]"
                   required={true}
