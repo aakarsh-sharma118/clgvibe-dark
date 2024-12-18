@@ -1,72 +1,75 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import TextInput from "./TextInput";
+import InputFields from "./InputFields";
+import { isEmailValid } from "../../constants";
 
 const ForgotPassword = (props) => {
-  // State variables
-  const [step, setStep] = useState(1); // Tracks the current step in the password reset process
-  const [email, setEmail] = useState(""); // Stores the email input value
-  const [otp, setOtp] = useState(""); // Stores the OTP input value
-  const [password, setPassword] = useState(""); // Stores the new password input value
-  const [confirmPassword, setConfirmPassword] = useState(""); // Stores the confirm password input value
-  const [formErrors, setFormErrors] = useState({}); // Stores validation error messages
-  const [timer, setTimer] = useState(120); // 2-minute timer for OTP expiration
-  const [focusedField, setFocusedField] = useState(null); // Tracks which input field is focused
+  // State to manage the current step of the form
+  const [step, setStep] = useState(1);
 
-  // Function to validate email format using a regular expression
-  const isEmailValid = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+  // State to hold user inputs
+  const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  // Effect hook to manage the OTP timer countdown when step 2 is active
+  // State to manage form error messages
+  const [formErrors, setFormErrors] = useState({});
+
+  // Timer state for OTP resend countdown
+  const [timer, setTimer] = useState(props.timerDuration);
+
+  // State to handle the resend OTP spinner
+  const [isResendingOtp, setIsResendingOtp] = useState(false);
+
+  // Effect to handle OTP countdown timer
   useEffect(() => {
     if (step === 2 && timer > 0) {
-      const interval = setInterval(() => {
-        setTimer((prev) => prev - 1);
-      }, 1000);
+      const interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
       return () => clearInterval(interval);
     }
   }, [step, timer]);
 
-  // Handle input change for any input field
-  const handleInputChange = (e, setter) => {
-    setter(e.target.value);
+  // Function to handle OTP resend logic
+  const handleResendOtp = () => {
+    setIsResendingOtp(true);
+    setTimeout(() => {
+      setTimer(props.timerDuration); // Reset the timer
+      setIsResendingOtp(false); // Stop the spinner
+      setFormErrors({ otp: "OTP has been resent. Please check your email." });
+    }, 2000); // Simulated delay
   };
 
-  // Handle input focus and set the focused field state
-  const handleInputFocus = (field) => {
-    if (field) setFocusedField(field);
-  };
-
-  // Handle input blur and reset the focused field state
-  const handleInputBlur = () => setFocusedField(null);
-
-  // Handle form submission logic for different steps
+  // Function to handle form submission
   const handleForgotPasswordSubmit = (e) => {
     e.preventDefault();
+
+    // Step 1: Validate email
     if (step === 1) {
-      // Step 1: Email validation
       if (!email) {
         setFormErrors({ email: "Email is required" });
       } else if (!isEmailValid(email)) {
         setFormErrors({ email: "Invalid email format" });
       } else {
         setFormErrors({});
-        setStep(2); // Move to step 2 (OTP verification)
-        setTimer(120); // Reset the timer for OTP expiration
+        setStep(2);
+        setTimer(props.timerDuration);
       }
-    } else if (step === 2) {
-      // Step 2: OTP validation
+    }
+
+    // Step 2: Validate OTP
+    else if (step === 2) {
       if (!otp) {
         setFormErrors({ otp: "OTP is required" });
       } else {
         setFormErrors({});
-        setStep(3); // Move to step 3 (password reset)
+        setStep(3);
       }
-    } else if (step === 3) {
-      // Step 3: Password and confirm password validation
+    }
+
+    // Step 3: Validate passwords
+    else if (step === 3) {
       if (!password || !confirmPassword) {
         setFormErrors({
           password: "Password and confirm password are required",
@@ -75,15 +78,18 @@ const ForgotPassword = (props) => {
         setFormErrors({ password: "Passwords do not match" });
       } else {
         setFormErrors({});
-        setStep(4); // Move to step 4 (success message)
+        setStep(4);
       }
     }
   };
 
-  // Handle OTP resend logic (resetting the timer)
-  const handleResendOtp = () => {
-    setTimer(120); // Reset the timer
-    setFormErrors({ otp: "OTP has been resent. Please check your email." }); // Optionally display a message
+  // Function to handle user input changes and clear error messages
+  const handleInputChange = (setter, field) => (e) => {
+    const value = e.target.value;
+    setter(value);
+    if (value.trim()) {
+      setFormErrors((prevErrors) => ({ ...prevErrors, [field]: "" }));
+    }
   };
 
   return (
@@ -101,7 +107,7 @@ const ForgotPassword = (props) => {
         </button>
       </div>
 
-      {/* Form title */}
+      {/* Heading */}
       <div className="mb-6">
         <h2 className="font-Abel text-2xl font-semibold text-black">
           Reset Your Password
@@ -114,20 +120,14 @@ const ForgotPassword = (props) => {
       {/* Step 1: Email input */}
       {step === 1 && (
         <div className="space-y-6">
-          <TextInput
+          <InputFields
             label="Email"
             name="email"
             value={email}
-            onChange={(e) => handleInputChange(e, setEmail)}
-            onFocus={() => handleInputFocus("email")}
-            onBlur={handleInputBlur}
-            focusedField={focusedField}
-            isEmpty={!email}
+            onChange={handleInputChange(setEmail, "email")}
           />
           {formErrors.email && (
-            <p className="text-red-500 text-xs !mt-1" key={formErrors.email}>
-              {formErrors.email}
-            </p>
+            <p className="text-red-500 text-xs !mt-1">{formErrors.email}</p>
           )}
           <button
             type="submit"
@@ -138,23 +138,17 @@ const ForgotPassword = (props) => {
         </div>
       )}
 
-      {/* Step 2: OTP input and timer */}
+      {/* Step 2: OTP input */}
       {step === 2 && (
         <div className="space-y-6">
-          <TextInput
+          <InputFields
             label="Enter OTP"
             name="otp"
             value={otp}
-            onChange={(e) => handleInputChange(e, setOtp)}
-            onFocus={() => handleInputFocus("otp")}
-            onBlur={handleInputBlur}
-            focusedField={focusedField}
-            isEmpty={!otp}
+            onChange={handleInputChange(setOtp, "otp")}
           />
           {formErrors.otp && (
-            <p className="text-red-500 text-xs !mt-1" key={formErrors.otp}>
-              {formErrors.otp}
-            </p>
+            <p className="text-red-500 text-xs !mt-1">{formErrors.otp}</p>
           )}
           <p className="text-gray-500 text-sm">
             Resend OTP in {Math.floor(timer / 60)}:
@@ -169,9 +163,14 @@ const ForgotPassword = (props) => {
           <button
             type="button"
             onClick={handleResendOtp}
-            className="w-full h-[43px] bg-gray-300 hover:bg-gray-400 text-black rounded-xl font-semibold transition-all"
+            disabled={timer > 0 || isResendingOtp}
+            className={`w-full h-[43px] rounded-xl font-semibold transition-all ${
+              timer > 0 || isResendingOtp
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-gray-300 hover:bg-gray-400 text-black"
+            }`}
           >
-            Resend OTP
+            {isResendingOtp ? "Resending..." : "Resend OTP"}
           </button>
         </div>
       )}
@@ -179,34 +178,24 @@ const ForgotPassword = (props) => {
       {/* Step 3: Password reset */}
       {step === 3 && (
         <div className="space-y-6">
-          <TextInput
+          <InputFields
             label="New Password"
             name="password"
             type="password"
             minLength="8"
             value={password}
-            onChange={(e) => handleInputChange(e, setPassword)}
-            onFocus={() => handleInputFocus("password")}
-            onBlur={handleInputBlur}
-            focusedField={focusedField}
-            isEmpty={!password}
+            onChange={handleInputChange(setPassword, "password")}
           />
-          <TextInput
+          <InputFields
             label="Confirm Password"
             name="confirmPassword"
             type="password"
             minLength="8"
             value={confirmPassword}
-            onChange={(e) => handleInputChange(e, setConfirmPassword)}
-            onFocus={() => handleInputFocus("confirmPassword")}
-            onBlur={handleInputBlur}
-            focusedField={focusedField}
-            isEmpty={!confirmPassword}
+            onChange={handleInputChange(setConfirmPassword, "confirmPassword")}
           />
           {formErrors.password && (
-            <p className="text-red-500 text-xs !mt-1" key={formErrors.password}>
-              {formErrors.password}
-            </p>
+            <p className="text-red-500 text-xs !mt-1">{formErrors.password}</p>
           )}
           <button
             type="submit"

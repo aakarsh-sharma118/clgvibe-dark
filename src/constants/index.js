@@ -326,6 +326,18 @@ export const colleges = [
   "Apply for your College",
 ];
 
+export const genders = [
+  "Select your gender",
+  "Male",
+  "Female",
+  "Other",
+];
+
+export const isEmailValid = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
 export const getRandomDarkGradientColors = (numColors = 2) => {
   const colors = [];
 

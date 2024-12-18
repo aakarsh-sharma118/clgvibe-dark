@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { LoginCarouselData } from "../../constants";
+import { genders, isEmailValid, LoginCarouselData } from "../../constants";
 import ForgotPassword from "./ForgotPassword";
 import { colleges } from "../../constants";
 import Carousel from "./Carousel";
-import TextInput from "./TextInput";
+import InputFields from "./InputFields";
 
 const LoginPage = (props) => {
   // State for toggling between login and Forgot Password forms
@@ -67,6 +67,16 @@ const LoginPage = (props) => {
     }
   }, []);
 
+  // Effect to set `applyForCollege` to `true` when the `college` field value is "Apply for your College"
+  useEffect(() => {
+    if (signUpFormData?.college && signUpFormData.college === "Apply for your College") {
+      setSignUpFormData((prev) => ({
+        ...prev,
+        applyForCollege: true,
+      }));
+    }
+  }, [signUpFormData?.college]);
+
   // Handle input changes for both forms
   const handleInputChange = (e) => {
     const { name, value } = e?.target ?? {};
@@ -78,31 +88,6 @@ const LoginPage = (props) => {
       setSignUpFormData((prev) => ({ ...prev, [name]: value ?? "" }));
     }
     setFormErrors({});
-  };
-
-  // Handle input focus
-  const handleInputFocus = (field) => {
-    if (field) setFocusedField(field); // Ensure `field` is not null or undefined
-  };
-
-  // Handle input blur
-  const handleInputBlur = () => setFocusedField(null);
-
-  // Check if a field is empty
-  const isFieldEmpty = (field) => {
-    if (!field) return true;
-
-    if (isLoginFormVisible) {
-      return !loginFormData?.[field]?.trim();
-    } else {
-      return !signUpFormData?.[field]?.trim();
-    }
-  };
-
-  // Validate email format
-  const isEmailValid = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
   };
 
   // Form submission handler for login
@@ -174,7 +159,10 @@ const LoginPage = (props) => {
 
           {/* Conditional rendering for login, forgot password and sign-up forms */}
           {forgotPassword ? (
-            <ForgotPassword moveBackToLogIn={() => setForgotPassword(false)} />
+            <ForgotPassword
+              moveBackToLogIn={() => setForgotPassword(false)}
+              timerDuration="120"
+            />
           ) : isLoginFormVisible ? (
             // Login form
             <form
@@ -208,29 +196,23 @@ const LoginPage = (props) => {
               {/* Login form fields */}
               <div className="space-y-6">
                 {/* Username Input Field */}
-                <TextInput
+                <InputFields
                   label="Username"
                   name="username"
                   value={loginFormData.username}
                   onChange={handleInputChange}
-                  onFocus={handleInputFocus}
-                  onBlur={handleInputBlur}
-                  focusedField={focusedField}
-                  isEmpty={isFieldEmpty("username")}
+                  required={true}
                 />
 
                 {/* Password Input Field */}
-                <TextInput
+                <InputFields
                   label="Password"
                   name="password"
                   type="password"
                   minLength="8"
                   value={loginFormData.password}
                   onChange={handleInputChange}
-                  onFocus={handleInputFocus}
-                  onBlur={handleInputBlur}
-                  focusedField={focusedField}
-                  isEmpty={isFieldEmpty("password")}
+                  required={true}
                 />
                 {/* Sign in button */}
                 <button className="w-full h-[43px] bg-[#0F0C17] text-white rounded-xl font-semibold hover:bg-color-hover transition-all">
@@ -275,15 +257,12 @@ const LoginPage = (props) => {
               {/* Form fields for step 1 */}
               <div className="space-y-6">
                 {/* First Name Input Field */}
-                <TextInput
+                <InputFields
                   label="First Name"
                   name="firstName"
                   value={signUpFormData.firstName}
                   onChange={handleInputChange}
-                  onFocus={handleInputFocus}
-                  onBlur={handleInputBlur}
-                  focusedField={focusedField}
-                  isEmpty={isFieldEmpty("firstName")}
+                  required={true}
                 />
                 {/* Validation errors */}
                 {formErrors.firstName &&
@@ -298,15 +277,12 @@ const LoginPage = (props) => {
                   )}
 
                 {/* Last Name Input Field */}
-                <TextInput
+                <InputFields
                   label="Last Name"
                   name="lastName"
                   value={signUpFormData.lastName}
                   onChange={handleInputChange}
-                  onFocus={handleInputFocus}
-                  onBlur={handleInputBlur}
-                  focusedField={focusedField}
-                  isEmpty={isFieldEmpty("lastName")}
+                  required={true}
                 />
                 {/* Validation errors */}
                 {formErrors.lastName &&
@@ -321,21 +297,16 @@ const LoginPage = (props) => {
                   )}
 
                 {/* College options */}
-                <div className="relative h-[37px]">
-                  <select
-                    name="college"
-                    value={signUpFormData.college}
-                    onChange={handleInputChange}
-                    className="w-full h-full bg-transparent border-b border-gray-400 outline-none text-gray-900 focus:border-black transition-all duration-300 input-field"
-                    required
-                  >
-                    {colleges.map((college, index) => (
-                      <option key={index} value={college}>
-                        {college}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                <InputFields
+                  name="college"
+                  type="select"
+                  value={signUpFormData.college}
+                  options={colleges} // Pass the array of colleges
+                  onChange={handleInputChange}
+                  className="h-[37px]"
+                  required={true}
+                />
+
                 {/* Validation errors */}
                 {formErrors.college &&
                   formErrors.college &&
@@ -349,20 +320,14 @@ const LoginPage = (props) => {
                   )}
 
                 {/* Gender options */}
-                <div className="relative h-[37px]">
-                  <select
-                    name="gender"
-                    value={signUpFormData.gender}
-                    onChange={handleInputChange}
-                    className="w-full h-full bg-transparent border-b border-gray-400 outline-none text-gray-900 focus:border-black transition-all duration-300 input-field"
-                    required
-                  >
-                    <option value="">Select your gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </div>
+                <InputFields
+                  name="gender"
+                  value={signUpFormData.gender}
+                  onChange={handleInputChange}
+                  type="select"
+                  options={genders}
+                  className="input-field"
+                />
 
                 {/* Continue To Step 2 button */}
                 <button
@@ -407,15 +372,12 @@ const LoginPage = (props) => {
               </div>
               <div className="space-y-6">
                 {/* Email Input Field */}
-                <TextInput
+                <InputFields
                   label="Email"
                   name="email"
                   value={signUpFormData.email}
                   onChange={handleInputChange}
-                  onFocus={handleInputFocus}
-                  onBlur={handleInputBlur}
-                  focusedField={focusedField}
-                  isEmpty={isFieldEmpty("email")}
+                  required={true}
                 />
                 {/* Validation errors */}
                 {formErrors.email &&
@@ -430,17 +392,14 @@ const LoginPage = (props) => {
                   )}
 
                 {/* Password Input Field */}
-                <TextInput
+                <InputFields
                   label="Password"
                   name="password"
                   type="password"
                   minLength="8"
                   value={signUpFormData.password}
                   onChange={handleInputChange}
-                  onFocus={handleInputFocus}
-                  onBlur={handleInputBlur}
-                  focusedField={focusedField}
-                  isEmpty={isFieldEmpty("password")}
+                  required={true}
                 />
                 {/* Validation errors */}
                 {formErrors.password &&
@@ -455,17 +414,14 @@ const LoginPage = (props) => {
                   )}
 
                 {/* Confirm Password Input Field */}
-                <TextInput
+                <InputFields
                   label="Confirm Password"
                   name="confirmPassword"
                   type="password"
                   minLength="8"
                   value={signUpFormData.confirmPassword}
                   onChange={handleInputChange}
-                  onFocus={handleInputFocus}
-                  onBlur={handleInputBlur}
-                  focusedField={focusedField}
-                  isEmpty={isFieldEmpty("confirmPassword")}
+                  required={true}
                 />
                 {/* Validation errors */}
                 {formErrors.confirmPassword &&
@@ -480,24 +436,19 @@ const LoginPage = (props) => {
                   )}
 
                 {/* Agree Terms checkbox */}
-                <div className="relative h-[37px]">
-                  <label className="inline-flex items-center text-gray-500">
-                    <input
-                      type="checkbox"
-                      name="agreeTerms"
-                      checked={signUpFormData.agreeTerms}
-                      onChange={() =>
-                        setSignUpFormData((prev) => ({
-                          ...prev,
-                          agreeTerms: !prev.agreeTerms,
-                        }))
-                      }
-                      className="mr-2"
-                      required
-                    />
-                    I agree to the terms and conditions
-                  </label>
-                </div>
+                <InputFields
+                  label="I agree to the terms and conditions"
+                  name="agreeTerms"
+                  value={signUpFormData.agreeTerms.toString()} // Convert boolean to string for the InputFields component
+                  type="checkbox"
+                  onChange={() =>
+                    setSignUpFormData((prev) => ({
+                      ...prev,
+                      agreeTerms: !prev.agreeTerms, // Toggle the checkbox value
+                    }))
+                  }
+                  className="text-sm"
+                />
                 {/* Validation errors */}
                 {formErrors.agreeTerms &&
                   formErrors.agreeTerms &&
@@ -550,9 +501,8 @@ const LoginPage = (props) => {
           )}
         </div>
 
-        {/* Carousel Section */}
+        {/* Carousel Section to Displaying the carousel  */}
         <div className="sm:block sm:w-full lg:w-[55%] h-full">
-          {/* Displaying the carousel */}
           <Carousel carouselData={LoginCarouselData} />
         </div>
       </div>
